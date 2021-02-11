@@ -1,0 +1,12 @@
+server:
+  port: 8615
+cloud:
+  aws:
+    region:
+      static: us-east-1
+      auto: false
+    credentials:
+      access-key: foo
+      secret-key: bar
+    end-point:
+      uri: http://localhost:4566

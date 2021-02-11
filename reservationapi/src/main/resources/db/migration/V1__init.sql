@@ -1,0 +1,15 @@
+create table city (id integer, name varchar(100));
+		insert into city (id, name) values (1, 'SANJOSE');
+		insert into city (id, name) values (2, 'AUSTIN');
+		insert into city (id, name) values (3, 'NEWYORK');
+create table slot (id integer, starttime integer,endtime integer);
+		insert into slot (id, starttime,endtime) values (1,8,9);
+        insert into slot (id, starttime,endtime) values (1,9,10);
+		insert into slot (id, starttime,endtime) values (1,10,11);
+        insert into slot (id, starttime,endtime) values (1,11,12);
+        insert into slot (id, starttime,endtime) values (1,12,13);
+        insert into slot (id, starttime,endtime) values (1,13,14);
+        insert into slot (id, starttime,endtime) values (1,14,15);
+        insert into slot (id, starttime,endtime) values (1,15,16);
+        insert into slot (id, starttime,endtime) values (1,16,17);
+        insert into slot (id, starttime,endtime) values (1,17,18);
