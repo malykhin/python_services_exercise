@@ -1,21 +1,39 @@
 package com.altran.notification;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class Reservation {
-    @Email(message = "Email should be valid" )
+    private int rid;
     private String emailId;
-    @Min(value = 8, message = "time should not be less than 1")
-    @Max(value = 20, message = "time should not be greater than 20")
     private int checkInTime;
-    @Min(value = 8, message = "time should not be less than 1")
-    @Max(value = 20, message = "time should not be greater than 20")
-    private int checkoutTime;
-    @NotNull(message = "city cannot be null")
+    private int checkOutTime;
     private String city;
+    private boolean confirmed;
+    private List<Slot> slotList;
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public List<Slot> getSlotList() {
+        return slotList;
+    }
+
+    public void setSlotList(List<Slot> slotList) {
+        this.slotList = slotList;
+    }
+
+    public int getRid() {
+        return rid;
+    }
+
+    public void setRid(int rid) {
+        this.rid = rid;
+    }
 
     public String getEmailId() {
         return emailId;
@@ -33,12 +51,12 @@ public class Reservation {
         this.checkInTime = checkInTime;
     }
 
-    public int getCheckoutTime() {
-        return checkoutTime;
+    public int getCheckOutTime() {
+        return checkOutTime;
     }
 
-    public void setCheckoutTime(int checkoutTime) {
-        this.checkoutTime = checkoutTime;
+    public void setCheckOutTime(int checkoutTime) {
+        this.checkOutTime = checkoutTime;
     }
 
     public String getCity() {

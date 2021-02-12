@@ -1,0 +1,8 @@
+{
+  "Template": {
+    "TemplateName": "Cancellation",
+    "SubjectPart": "Your Reservation at {{city}} from {{checkInTime}} to {{checkOutTime}} is Cancelled ",
+    "HtmlPart": "<h1>Hello Sir/Madam,</h1><p>We are sorry to inform you that,your Reservation at {{city}} is cancelled.</br> Please choose different time from below available slots</br>{{slotList}}</p>",
+    "TextPart": "Dear Sir/Madam,\r\nYour Reservation at {{city}} is Cancelled. Please choose different time from below available slots<\r\n{{slotList}}."
+  }
+}

@@ -13,7 +13,7 @@ public class Reservation {
     private int checkInTime;
     @Min(value = 8, message = "time should not be less than 1")
     @Max(value = 20, message = "time should not be greater than 20")
-    private int checkoutTime;
+    private int checkOutTime;
     @NotNull(message = "city cannot be null")
     private String city;
 
@@ -33,12 +33,12 @@ public class Reservation {
         this.checkInTime = checkInTime;
     }
 
-    public int getCheckoutTime() {
-        return checkoutTime;
+    public int getCheckOutTime() {
+        return checkOutTime;
     }
 
-    public void setCheckoutTime(int checkoutTime) {
-        this.checkoutTime = checkoutTime;
+    public void setCheckOutTime(int checkoutTime) {
+        this.checkOutTime = checkoutTime;
     }
 
     public String getCity() {

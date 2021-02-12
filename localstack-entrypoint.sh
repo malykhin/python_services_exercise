@@ -15,7 +15,13 @@ echo "output = json" >> ~/.aws/config
 
 aws --endpoint-url $LOCALSTACK_SQS_URL sqs create-queue --queue-name reservation
 aws --endpoint-url $LOCALSTACK_SQS_URL sqs create-queue --queue-name notification
-#aws ses verify-email-identity --email-address altranjavademo2@gmail.com
-#aws ses verify-email-identity --email-address altranjavademo1@gmail.com
+aws --endpoint-url $LOCALSTACK_SQS_URL ses verify-email-identity --email-address altranjavademo2@gmail.com
+aws --endpoint-url $LOCALSTACK_SQS_URL ses verify-email-identity --email-address altranjavademo1@gmail.com
+aws --endpoint-url $LOCALSTACK_SQS_URL ses list-identities
+echo "emails are verified"
+aws --endpoint-url $LOCALSTACK_SQS_URL ses create-template --cli-input-json file:///docker-entrypoint-initaws.d/templates/successemail.json
+aws --endpoint-url $LOCALSTACK_SQS_URL ses create-template --cli-input-json file:///docker-entrypoint-initaws.d/templates/erroremail.json
+echo "email templates are created"
+aws --endpoint-url $LOCALSTACK_SQS_URL ses list-templates
 
 set +x

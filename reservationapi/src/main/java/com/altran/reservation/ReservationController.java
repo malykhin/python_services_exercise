@@ -20,11 +20,16 @@ public class ReservationController {
     private QueueMessagingTemplate queueMessagingTemplate;
     @Autowired
     AmazonSQSAsync amazonSQSAsync;
+    @Autowired
+    ReservationService reservationService;
 
     @SqsListener(value = "reservation", deletionPolicy = SqsMessageDeletionPolicy.ALWAYS)
     public void listenToSecondQueue(Reservation message) throws JsonProcessingException {
         System.out.println("Received a message on second queue: {}"+ message.getCity());
         ObjectMapper objectMapper=new ObjectMapper();
+        message.setConfirmed(reservationService.checkAvailability(message));
+        if(!message.isConfirmed())
+            message.setSlotList(reservationService.availableSlots(message));
         String messageAsString = objectMapper.writeValueAsString(message);
         SendMessageResult  sendMessageResult= amazonSQSAsync.sendMessage("http://localhost:4566/000000000000/notification",messageAsString);
     }

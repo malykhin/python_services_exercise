@@ -84,9 +84,10 @@ public class AwsConfig {
     public AmazonSimpleEmailService amazonSimpleEmailService() {
         return AmazonSimpleEmailServiceClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey)))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-1"))
                 // Replace US_WEST_2 with the AWS Region you're using for
                 // Amazon SES.
-                .withRegion(Regions.US_EAST_1).build();
+                .build();
     }
 
     @Bean
