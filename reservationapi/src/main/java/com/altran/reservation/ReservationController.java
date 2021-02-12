@@ -23,15 +23,15 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
-    @SqsListener(value = "reservation", deletionPolicy = SqsMessageDeletionPolicy.ALWAYS)
+    @SqsListener(value = "http://localstack:4566/000000000000/reservation", deletionPolicy = SqsMessageDeletionPolicy.ALWAYS)
     public void listenToSecondQueue(Reservation message) throws JsonProcessingException {
-        System.out.println("Received a message on second queue: {}"+ message.getCity());
         ObjectMapper objectMapper=new ObjectMapper();
+        System.out.println("@@@@@@@@@@ Received a message on Reservation queue: {}"+ objectMapper.writeValueAsString(message)+" @@@@@@@@@@");
         message.setConfirmed(reservationService.checkAvailability(message));
         if(!message.isConfirmed())
             message.setSlotList(reservationService.availableSlots(message));
         String messageAsString = objectMapper.writeValueAsString(message);
-        SendMessageResult  sendMessageResult= amazonSQSAsync.sendMessage("http://localhost:4566/000000000000/notification",messageAsString);
+        SendMessageResult  sendMessageResult= amazonSQSAsync.sendMessage("http://localstack:4566/000000000000/notification",messageAsString);
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody

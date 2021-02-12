@@ -41,7 +41,7 @@ public class AwsSQSConfig {
     public AmazonSQSAsync amazonSQSAsync() {
         return AmazonSQSAsyncClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey)))
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-1"))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localstack:4566", "us-east-1"))
                 .build();
     }
     @Bean

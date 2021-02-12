@@ -47,7 +47,7 @@ public class AwsConfig {
     public AmazonSQSAsync amazonSQSAsync() {
         return AmazonSQSAsyncClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey)))
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-1"))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localstack:4566", "us-east-1"))
                 .build();
     }
     @Bean
@@ -84,7 +84,7 @@ public class AwsConfig {
     public AmazonSimpleEmailService amazonSimpleEmailService() {
         return AmazonSimpleEmailServiceClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey)))
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-1"))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localstack:4566", "us-east-1"))
                 // Replace US_WEST_2 with the AWS Region you're using for
                 // Amazon SES.
                 .build();

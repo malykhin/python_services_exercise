@@ -31,10 +31,10 @@ public class EmployeeController {
     public ResponseEntity sendMessageToFirstQueue(@Valid @RequestBody Reservation reservation) throws JsonProcessingException {
         ObjectMapper objectMapper=new ObjectMapper();
         String messageAsString = objectMapper.writeValueAsString(reservation);
-        System.out.println("Writing message {} to queue {}"+ messageAsString );
+        System.out.println("@@@@@@@@@@ Writing message {} to Reservation queue {}"+ messageAsString +" @@@@@@@@@@");
 
        // queueMessagingTemplate.send(endpoint, MessageBuilder.withPayload(messageAsString).build());
-        SendMessageResult  sendMessageResult= amazonSQSAsync.sendMessage("http://localhost:4566/000000000000/reservation",messageAsString);
+        SendMessageResult  sendMessageResult= amazonSQSAsync.sendMessage("http://localstack:4566/000000000000/reservation",messageAsString);
        if(sendMessageResult.getMessageId()!=null){
            return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"we will email you soon about your reservation\"}");
        } else {
