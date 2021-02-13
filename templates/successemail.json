@@ -1,0 +1,8 @@
+{
+  "Template": {
+    "TemplateName": "Confirmed",
+    "SubjectPart": "Your Reservation at {{city}} from {{checkInTime}} to {{checkOutTime}} is Confirmed ",
+    "HtmlPart": "<h1>Hello Sir/Madam,</h1><p>Your Reservation at {{city}} is successfull. See you soon</p>",
+    "TextPart": "Dear Sir/Madam,\r\nYour Reservation at {{city}} is successfull. See you soon."
+  }
+}

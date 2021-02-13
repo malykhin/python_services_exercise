@@ -1,52 +1,71 @@
-version: "3.7"
+version: '3.7'
 
 services:
-
-  api_service:
-    build:
-      context: .
-    container_name: api_service
-    command: ["python", "-u",  "./service.py"]
-    restart: always
-    environment:
-      - AWS_ACCESS_KEY_ID=foo
-      - AWS_SECRET_ACCESS_KEY=bar
-      - AWS_DEFAULT_REGION=us-east-1
-      - LOCALSTACK_SQS_ENDPOINT_URL=http://localstack:4566
-      - BOOKING_QUEUE_URL=http://localstack:4566/000000000000/booking-queue
-    volumes:
-      - ./src/api_service.py:/usr/src/app/service.py
-
-  booking_service:
-    build:
-      context: .
-    container_name: booking_service
-    command: ["python", "-u",  "./service.py"]
-    restart: always
-    environment:
-      - AWS_ACCESS_KEY_ID=foo
-      - AWS_SECRET_ACCESS_KEY=bar
-      - AWS_DEFAULT_REGION=us-east-1
-      - LOCALSTACK_SQS_ENDPOINT_URL=http://localstack:4566
-      - BOOKING_QUEUE_URL=http://localstack:4566/000000000000/booking-queue
-    volumes:
-      - ./src/booking_service.py:/usr/src/app/service.py
-
   localstack:
     image: localstack/localstack-full
     container_name: localstack
+    healthcheck:
+      test: "nc -vz localstack 4566"
+      interval: 2s
+      timeout: 30s
+      retries: 15
     ports:
-      - 4567-4593:4567-4593
+      - 4566-4593:4566-4593
       - 8080:8080
     environment:
-      - SERVICES=sqs
+      - SERVICES=sqs,ses
       - PORT_WEB_UI=8080
       - DEBUG=0
       - DATA_DIR=./tmp/localstack/data
       - LAMBDA_EXECUTOR=local
       - KINESIS_ERROR_PROBABILITY=0
       - DOCKER_HOST=unix:///var/run/docker.sock
-      - LOCALSTACK_HOSTNAME=localhost
+      - LOCALSTACK_HOSTNAME=localstack
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./localstack-entrypoint.sh:/docker-entrypoint-initaws.d/localstack-entrypoint.sh
+      - ./templates/:/docker-entrypoint-initaws.d/templates/
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    depends_on:
+      - "localstack"
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: "nc -vz localhost 5432"
+      interval: 2s
+      timeout: 30s
+      retries: 15
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_PORT=5432
+  employeeapi:
+    image: employeeapi:0.0.1-SNAPSHOT
+    ports:
+      - 8613:8613
+    depends_on:
+      localstack:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+  reservationapi:
+    image: reservationapi:0.0.1-SNAPSHOT
+    ports:
+      - 8614:8614
+    depends_on:
+      localstack:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+  notificationapi:
+    image: notificationapi:0.0.1-SNAPSHOT
+    ports:
+      - 8615:8615
+    depends_on:
+      localstack:
+        condition: service_healthy
+      db:
+        condition: service_healthy
